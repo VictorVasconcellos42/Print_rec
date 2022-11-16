@@ -12,7 +12,7 @@
 
 NAME	=	print_rec
 
-SRCS	=	src/
+SRCS	=	src/print_rec.c 
 
 OBJS	=	$(SRCS:.c=.o)
 
@@ -30,7 +30,7 @@ PATH_GNL	=	utils/get_next_line
 
 FUNCTION	= print_rec
 
-FLAGS	= -Wall -Wextra -Werror -g
+FLAGS	= -Wall -Wextra -Werror
 
 #colors:
 
@@ -57,11 +57,12 @@ $(NAMELIB):
 	@echo "$(GREEN)Objects created!!$(END)"
 
 $(FUNCTION): $(NAMELIB) $(OBJS)
-	@cc $(FLAGS) $(NAMELIB) $(GNL_LIB) $(OBJS) -o $(FUNCTION)
+	cc -g ${FLAGS} $(OBJS) ${NAMELIB} ${GNL_LIB} -o $(FUNCTION)
 	@echo "$(GREEN)print_rec created!!$(END)"
 
 clean:
 	@$(MAKE) fclean -s -C $(PATH_LIB)
+	@$(MAKE) fclean -s -C $(PATH_GNL)
 	@rm -rf src/*.o
 	@echo "$(BLUE)[ D E L E T I N G ... ]$(END)"
 	@echo "$(RED)Objects successfully removed!$(END)"
@@ -69,8 +70,7 @@ clean:
 fclean: clean
 	@rm -rf $(NAMELIB)
 	@rm -rf $(GNL_LIB)
-	@make clean -s -C $(MLX_PATH)
-	@rm -rf so_long
+	@rm -rf $(FUNCTION)
 	@rm -rf so_long.DSYM/
 
 debug: $(NAMELIB) $(OBJS)
